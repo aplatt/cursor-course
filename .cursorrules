@@ -1,0 +1,160 @@
+# Cursor Rules for Next.js API Key Management Project
+
+## Project Overview
+This is a Next.js 15+ application with TypeScript, using App Router and Tailwind CSS for styling.
+The project includes an API key management dashboard with full CRUD operations.
+
+## Tech Stack
+- Next.js 15+ (App Router)
+- TypeScript
+- React 19+
+- Tailwind CSS
+- Server Components and Client Components
+
+## Code Style & Conventions
+
+### TypeScript
+- Use TypeScript for all files
+- Always define proper types and interfaces
+- Avoid `any` type - use `unknown` or proper types
+- Use type inference where appropriate
+- Export types/interfaces that are used across multiple files
+
+### React & Next.js
+- Prefer Server Components by default
+- Use 'use client' directive only when necessary (state, effects, browser APIs)
+- Use Next.js Link component for internal navigation
+- Use Next.js Image component for images
+- Follow the App Router file structure conventions
+- Use route handlers for API endpoints (app/api/...)
+
+### Component Structure
+- One component per file (except small helper components)
+- Use functional components with hooks
+- Props should be typed with interfaces
+- Use meaningful component and prop names
+- Keep components focused and single-responsibility
+
+### Naming Conventions
+- Files: kebab-case for regular files, PascalCase for components
+- Components: PascalCase
+- Functions: camelCase
+- Constants: UPPER_SNAKE_CASE
+- Types/Interfaces: PascalCase, prefix interfaces with 'I' only if necessary for clarity
+- CSS classes: use Tailwind utility classes
+
+### Styling
+- Use Tailwind CSS utility classes
+- Maintain consistent spacing (px-4, py-2, gap-4, etc.)
+- Follow the existing dark mode pattern (dark:)
+- Keep mobile-first responsive design
+- Use semantic color classes (bg-blue-600, text-zinc-900, etc.)
+
+### API Routes
+- Use proper HTTP status codes
+- Return consistent JSON responses
+- Handle errors gracefully with try-catch
+- Validate input data
+- Use NextResponse for all API responses
+
+### State Management
+- Use React hooks (useState, useEffect, etc.) for local state
+- Lift state up when needed by multiple components
+- Consider context for app-wide state (if needed in future)
+
+### Data Handling
+- Current: In-memory store via lib/api-keys-store.ts
+- Future: Replace with database (PostgreSQL, Prisma, etc.)
+- Always validate and sanitize user input
+- Handle loading and error states in UI
+
+### Error Handling
+- Use try-catch blocks in async functions
+- Provide user-friendly error messages
+- Log errors appropriately (console.error for development)
+- Show loading states during async operations
+
+### UI/UX Guidelines
+- Maintain consistent button styles and interactions
+- Use modals for create/edit operations
+- Show confirmation dialogs for destructive actions
+- Provide visual feedback (hover states, transitions)
+- Include loading spinners for async operations
+- Show empty states when no data exists
+- Ensure accessibility (semantic HTML, ARIA labels when needed)
+
+### Code Quality
+- Write clean, readable code with meaningful names
+- Add comments for complex logic only
+- Keep functions small and focused
+- Remove unused imports and code
+- Follow DRY (Don't Repeat Yourself) principle
+
+### File Organization
+```
+/app
+  /api              - API route handlers
+  /dashboards       - Dashboard pages
+  layout.tsx        - Root layout
+  page.tsx          - Home page
+/lib                - Shared utilities and stores
+/components         - Reusable components (create when needed)
+/types              - Shared TypeScript types (create when needed)
+```
+
+## Best Practices
+
+### Performance
+- Use Server Components where possible
+- Implement proper loading states
+- Optimize images with Next.js Image
+- Minimize client-side JavaScript
+
+### Security
+- Validate all user inputs
+- Sanitize data before storing
+- Use environment variables for sensitive data
+- Implement authentication before production (future)
+
+### Accessibility
+- Use semantic HTML elements
+- Provide alt text for images
+- Ensure keyboard navigation works
+- Maintain good color contrast
+
+### Testing (Future)
+- Write unit tests for utilities
+- Write integration tests for API routes
+- Consider E2E tests for critical flows
+
+## Project-Specific Guidelines
+
+### API Key Management
+- Keys should have unique IDs
+- Track creation date and last used date
+- Allow editing of key name and value
+- Require confirmation before deletion
+- Display keys in a clear, readable format
+
+### UI Patterns
+- Use modals for forms (create/edit)
+- Use card grids for displaying items
+- Maintain consistent color scheme (blue primary, zinc neutral)
+- Support both light and dark modes
+
+### Future Enhancements
+- Add authentication/authorization
+- Replace in-memory store with database
+- Add API key usage tracking and analytics
+- Implement key expiration dates
+- Add search and filter functionality
+- Add pagination for large datasets
+
+## Common Pitfalls to Avoid
+- Don't mix Server and Client Components incorrectly
+- Don't forget 'use client' when using hooks/state
+- Don't use outdated Next.js patterns (pages directory)
+- Don't hardcode values that should be environment variables
+- Don't skip error handling in API routes
+- Don't forget responsive design considerations
+

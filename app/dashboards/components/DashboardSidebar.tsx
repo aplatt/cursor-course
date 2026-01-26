@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 type DashboardSidebarProps = {
   isCollapsed: boolean;
@@ -8,6 +9,15 @@ type DashboardSidebarProps = {
 };
 
 export default function DashboardSidebar({ isCollapsed, onToggle }: DashboardSidebarProps) {
+  const pathname = usePathname();
+  const isOverview = pathname === '/dashboards';
+  const isPlayground = pathname === '/dashboards/playground';
+
+  const getNavClass = (isActive: boolean) =>
+    `flex items-center gap-2 rounded-lg px-3 py-2 ${
+      isActive ? 'bg-slate-100 text-slate-900' : 'text-slate-600 hover:bg-slate-100'
+    } ${isCollapsed ? 'justify-center' : ''}`;
+
   return (
     <aside
       className={`border-r border-slate-200 bg-white py-6 transition-all duration-200 ${
@@ -37,24 +47,16 @@ export default function DashboardSidebar({ isCollapsed, onToggle }: DashboardSid
         {isCollapsed ? 'P' : 'Personal'}
       </div>
       <nav className="mt-6 space-y-1 text-sm">
-        <a
-          className={`flex items-center gap-2 rounded-lg bg-slate-100 px-3 py-2 text-slate-900 ${
-            isCollapsed ? 'justify-center' : ''
-          }`}
-          href="#"
-          aria-label="Overview"
-        >
+        <Link className={getNavClass(isOverview)} href="/dashboards" aria-label="Overview">
           {isCollapsed ? 'O' : 'Overview'}
-        </a>
-        <a
-          className={`flex items-center gap-2 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100 ${
-            isCollapsed ? 'justify-center' : ''
-          }`}
-          href="#"
+        </Link>
+        <Link
+          className={getNavClass(isPlayground)}
+          href="/dashboards/playground"
           aria-label="API Playground"
         >
           {isCollapsed ? 'A' : 'API Playground'}
-        </a>
+        </Link>
         <a
           className={`flex items-center gap-2 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100 ${
             isCollapsed ? 'justify-center' : ''

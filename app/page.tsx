@@ -13,12 +13,18 @@ export default function Home() {
             Personal
           </div>
           <nav className="mt-6 space-y-1 text-sm">
-            <a className="flex items-center gap-2 rounded-lg bg-slate-100 px-3 py-2 text-slate-900" href="#">
+            <Link
+              className="flex items-center gap-2 rounded-lg bg-slate-100 px-3 py-2 text-slate-900"
+              href="/dashboards"
+            >
               Overview
-            </a>
-            <a className="flex items-center gap-2 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100" href="#">
+            </Link>
+            <Link
+              className="flex items-center gap-2 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+              href="/dashboards/playground"
+            >
               API Playground
-            </a>
+            </Link>
             <a className="flex items-center gap-2 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100" href="#">
               Use Cases
             </a>

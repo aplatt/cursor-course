@@ -190,7 +190,7 @@ export default function Dashboard() {
           onToggle={() => setIsSidebarCollapsed((current) => !current)}
         />
         <main className="flex-1 px-10 py-8">
-          <DashboardHeader />
+          <DashboardHeader title="Overview" breadcrumb="Pages / Overview" />
           <PlanCard />
           <ApiKeysTable
             apiKeys={apiKeys}

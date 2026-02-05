@@ -1,4 +1,5 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { ChatGoogleGenerativeAI } from '@langchain/google-genai';
+import { z } from 'zod';
 
 export type SummaryResponse = {
   summary: string;
@@ -27,19 +28,10 @@ export const getGithubUrlFromRequest = async (request: Request) => {
   }
 };
 
-const parseSummaryResponse = (content: string): SummaryResponse => {
-  try {
-    const parsed = JSON.parse(content) as { summary?: string; cool_facts?: string[] };
-    return {
-      summary: typeof parsed.summary === 'string' ? parsed.summary : '',
-      cool_facts: Array.isArray(parsed.cool_facts)
-        ? parsed.cool_facts.filter((fact) => typeof fact === 'string')
-        : [],
-    };
-  } catch {
-    return { summary: '', cool_facts: [] };
-  }
-};
+const summarySchema = z.object({
+  summary: z.string().min(1),
+  cool_facts: z.array(z.string().min(1)).length(3),
+});
 
 const getRepoInfoFromGithubUrl = (url: string): { owner: string; repo: string } | null => {
   try {
@@ -84,32 +76,23 @@ export const generateSummaryWithGemini = async (readmeContent: string): Promise<
     throw new Error('Missing GEMINI_API_KEY in environment.');
   }
 
-  const genAI = new GoogleGenerativeAI(apiKeyEnv);
-  const model = genAI.getGenerativeModel({
+  const model = new ChatGoogleGenerativeAI({
+    apiKey: apiKeyEnv,
     model: 'gemini-2.5-flash',
-    generationConfig: {
-      responseMimeType: 'application/json',
-    },
+    temperature: 0.2,
   });
 
+  const structuredModel = model.withStructuredOutput(summarySchema);
+
   const prompt = `Summarize this GitHub repository README.
-Return ONLY valid JSON with:
+Return JSON with:
 - "summary": string
 - "cool_facts": array of 3 strings
 
 README:
 ${readmeContent}`;
 
-  const result = await model.generateContent(prompt);
-  const content = result.response.text();
-  let response = parseSummaryResponse(content);
-
-  if (!response.summary || response.cool_facts.length === 0) {
-    const jsonMatch = content.match(/\{[\s\S]*\}/);
-    if (jsonMatch) {
-      response = parseSummaryResponse(jsonMatch[0]);
-    }
-  }
+  const response = await structuredModel.invoke(prompt);
 
   return response;
 };

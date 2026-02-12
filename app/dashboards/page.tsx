@@ -33,9 +33,10 @@ export default function Dashboard() {
     try {
       const response = await fetch('/api/keys');
       const data = await response.json();
-      setApiKeys(data);
+      setApiKeys(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Failed to fetch API keys:', error);
+      setApiKeys([]);
     } finally {
       setIsLoading(false);
     }

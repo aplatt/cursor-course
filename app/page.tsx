@@ -1,4 +1,5 @@
 import Link from "next/link";
+import AuthControls from "./components/AuthControls";
 
 export default function Home() {
   return (
@@ -47,6 +48,7 @@ export default function Home() {
               <h1 className="text-3xl font-semibold text-slate-900">Overview</h1>
             </div>
             <div className="flex items-center gap-3">
+              <AuthControls />
               <div className="flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-600">
                 <span className="h-2 w-2 rounded-full bg-emerald-500" />
                 Operational

@@ -14,3 +14,16 @@ create table if not exists public.api_keys (
 
 create index if not exists api_keys_created_at_idx on public.api_keys (created_at desc);
 create index if not exists api_keys_key_type_idx on public.api_keys (key_type);
+
+create table if not exists public.users (
+  id uuid primary key default gen_random_uuid(),
+  email text not null unique,
+  name text,
+  image text,
+  provider text not null default 'google',
+  provider_account_id text,
+  created_at timestamptz not null default now(),
+  last_login_at timestamptz not null default now()
+);
+
+create index if not exists users_email_idx on public.users (email);

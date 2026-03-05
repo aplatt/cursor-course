@@ -1,28 +1,30 @@
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
-import { supabase } from '@/lib/supabase/server';
 
-const clientId = process.env.GOOGLE_CLIENT_ID;
-const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+const clientId = process.env.GOOGLE_CLIENT_ID ?? '';
+const clientSecret = process.env.GOOGLE_CLIENT_SECRET ?? '';
 
-if (!clientId || !clientSecret) {
-  throw new Error('Missing GOOGLE_CLIENT_ID or GOOGLE_CLIENT_SECRET in environment.');
-}
+const authEnabled = Boolean(clientId && clientSecret);
 
 const handler = NextAuth({
-  providers: [
-    GoogleProvider({
-      clientId,
-      clientSecret,
-    }),
-  ],
-  secret: process.env.NEXTAUTH_SECRET,
+  providers: authEnabled
+    ? [
+        GoogleProvider({
+          clientId,
+          clientSecret,
+        }),
+      ]
+    : [],
+  secret: process.env.NEXTAUTH_SECRET ?? 'dev-secret-replace-me',
   session: { strategy: 'jwt' },
   events: {
     async signIn({ user, account }) {
       if (!user.email) return;
 
       try {
+        const { supabase } = await import('@/lib/supabase/server');
+        if (!supabase) return;
+
         const { data: existingUser } = await supabase
           .from('users')
           .select('id')

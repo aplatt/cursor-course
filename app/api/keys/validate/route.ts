@@ -6,6 +6,10 @@ export async function POST(request: Request) {
     const body = await request.json();
     const key = typeof body?.key === 'string' ? body.key.trim() : '';
 
+    if (!supabase) {
+      return NextResponse.json({ error: 'Database unavailable' }, { status: 503 });
+    }
+
     if (!key) {
       return NextResponse.json({ error: 'API key is required' }, { status: 400 });
     }

@@ -7,6 +7,10 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    if (!supabase) {
+      return NextResponse.json({ error: 'Database unavailable' }, { status: 503 });
+    }
+
     const body = await request.json();
     const { name, key } = body;
     const { id } = await params;
@@ -53,6 +57,10 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    if (!supabase) {
+      return NextResponse.json({ error: 'Database unavailable' }, { status: 503 });
+    }
+
     const { id } = await params;
 
     const { data, error } = await supabase

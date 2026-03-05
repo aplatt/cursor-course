@@ -3,6 +3,10 @@ import { supabase } from '@/lib/supabase/server';
 
 // GET - Fetch all API keys
 export async function GET() {
+  if (!supabase) {
+    return NextResponse.json({ error: 'Database unavailable' }, { status: 503 });
+  }
+
   const { data, error } = await supabase
     .from('api_keys')
     .select('id,name,key_value,created_at,last_used,key_type,monthly_limit,limit_enabled,is_active')
@@ -28,6 +32,10 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     const { name, key, keyType, monthlyLimit, limitEnabled } = body;
+
+    if (!supabase) {
+      return NextResponse.json({ error: 'Database unavailable' }, { status: 503 });
+    }
 
     if (!name || !key) {
       return NextResponse.json(

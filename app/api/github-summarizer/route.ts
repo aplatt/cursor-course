@@ -14,6 +14,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'API key is required' }, { status: 401 });
   }
 
+  if (!supabase) {
+    return NextResponse.json({ error: 'Database unavailable' }, { status: 503 });
+  }
+
   const { data, error } = await supabase
     .from('api_keys')
     .select('id')

@@ -22,6 +22,7 @@ export default function Dashboard() {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<ApiKey | null>(null);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [copyNotice, setCopyNotice] = useState<CopyNotice>(null);
 
   // Fetch API keys
@@ -189,9 +190,15 @@ export default function Dashboard() {
         <DashboardSidebar
           isCollapsed={isSidebarCollapsed}
           onToggle={() => setIsSidebarCollapsed((current) => !current)}
+          isMobileOpen={isMobileMenuOpen}
+          onMobileClose={() => setIsMobileMenuOpen(false)}
         />
-        <main className="flex-1 px-10 py-8">
-          <DashboardHeader title="Overview" breadcrumb="Pages / Overview" />
+        <main className="flex-1 px-4 py-6 sm:px-6 md:px-10 md:py-8">
+          <DashboardHeader
+            title="Overview"
+            breadcrumb="Pages / Overview"
+            onMobileMenuToggle={() => setIsMobileMenuOpen((current) => !current)}
+          />
           <PlanCard />
           <ApiKeysTable
             apiKeys={apiKeys}

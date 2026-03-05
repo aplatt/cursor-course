@@ -8,6 +8,7 @@ import type { CopyNotice } from '../types';
 
 export default function ApiPlaygroundPage() {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [apiKey, setApiKey] = useState('');
   const [notice, setNotice] = useState<CopyNotice>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -47,9 +48,15 @@ export default function ApiPlaygroundPage() {
         <DashboardSidebar
           isCollapsed={isSidebarCollapsed}
           onToggle={() => setIsSidebarCollapsed((current) => !current)}
+          isMobileOpen={isMobileMenuOpen}
+          onMobileClose={() => setIsMobileMenuOpen(false)}
         />
-        <main className="flex-1 px-10 py-8">
-          <DashboardHeader title="API Playground" breadcrumb="Pages / API Playground" />
+        <main className="flex-1 px-4 py-6 sm:px-6 md:px-10 md:py-8">
+          <DashboardHeader
+            title="API Playground"
+            breadcrumb="Pages / API Playground"
+            onMobileMenuToggle={() => setIsMobileMenuOpen((current) => !current)}
+          />
           <section className="mt-8 max-w-2xl rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
             <div className="space-y-2">
               <h2 className="text-lg font-semibold text-slate-900">Validate an API key</h2>

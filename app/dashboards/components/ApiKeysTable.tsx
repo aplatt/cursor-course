@@ -34,8 +34,8 @@ export default function ApiKeysTable({
         </button>
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-xl border border-slate-100">
-        <table className="w-full text-sm">
+      <div className="mt-4 overflow-x-auto rounded-xl border border-slate-100">
+        <table className="w-full min-w-[600px] text-sm">
           <thead className="bg-slate-50 text-xs uppercase text-slate-500">
             <tr>
               <th className="px-4 py-3 text-left">Name</th>

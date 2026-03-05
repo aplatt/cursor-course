@@ -6,9 +6,16 @@ import { usePathname } from 'next/navigation';
 type DashboardSidebarProps = {
   isCollapsed: boolean;
   onToggle: () => void;
+  isMobileOpen: boolean;
+  onMobileClose: () => void;
 };
 
-export default function DashboardSidebar({ isCollapsed, onToggle }: DashboardSidebarProps) {
+export default function DashboardSidebar({
+  isCollapsed,
+  onToggle,
+  isMobileOpen,
+  onMobileClose,
+}: DashboardSidebarProps) {
   const pathname = usePathname();
   const isOverview = pathname === '/dashboards';
   const isPlayground = pathname === '/dashboards/playground';
@@ -18,12 +25,8 @@ export default function DashboardSidebar({ isCollapsed, onToggle }: DashboardSid
       isActive ? 'bg-slate-100 text-slate-900' : 'text-slate-600 hover:bg-slate-100'
     } ${isCollapsed ? 'justify-center' : ''}`;
 
-  return (
-    <aside
-      className={`border-r border-slate-200 bg-white py-6 transition-all duration-200 ${
-        isCollapsed ? 'w-20 px-4' : 'w-64 px-6'
-      }`}
-    >
+  const sidebarContent = (
+    <>
       <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'}`}>
         <div className="flex items-center gap-3">
           <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-500" />
@@ -32,7 +35,7 @@ export default function DashboardSidebar({ isCollapsed, onToggle }: DashboardSid
         <button
           type="button"
           onClick={onToggle}
-          className="h-8 w-8 rounded-full border border-slate-200 text-slate-500 hover:bg-slate-50"
+          className="hidden h-8 w-8 rounded-full border border-slate-200 text-slate-500 hover:bg-slate-50 md:inline-flex md:items-center md:justify-center"
           aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           aria-pressed={isCollapsed}
         >
@@ -47,13 +50,14 @@ export default function DashboardSidebar({ isCollapsed, onToggle }: DashboardSid
         {isCollapsed ? 'P' : 'Personal'}
       </div>
       <nav className="mt-6 space-y-1 text-sm">
-        <Link className={getNavClass(isOverview)} href="/dashboards" aria-label="Overview">
+        <Link className={getNavClass(isOverview)} href="/dashboards" aria-label="Overview" onClick={onMobileClose}>
           {isCollapsed ? 'O' : 'Overview'}
         </Link>
         <Link
           className={getNavClass(isPlayground)}
           href="/dashboards/playground"
           aria-label="API Playground"
+          onClick={onMobileClose}
         >
           {isCollapsed ? 'A' : 'API Playground'}
         </Link>
@@ -99,6 +103,47 @@ export default function DashboardSidebar({ isCollapsed, onToggle }: DashboardSid
           {isCollapsed ? 'H' : 'Back to Home'}
         </Link>
       </div>
-    </aside>
+    </>
+  );
+
+  return (
+    <>
+      {/* Mobile overlay */}
+      {isMobileOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/30 md:hidden"
+          onClick={onMobileClose}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* Mobile slide-out sidebar */}
+      <aside
+        className={`fixed inset-y-0 left-0 z-50 w-64 border-r border-slate-200 bg-white px-6 py-6 transition-transform duration-200 md:hidden ${
+          isMobileOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
+        <div className="mb-4 flex justify-end">
+          <button
+            type="button"
+            onClick={onMobileClose}
+            className="h-8 w-8 rounded-full border border-slate-200 text-slate-500 hover:bg-slate-50"
+            aria-label="Close menu"
+          >
+            ✕
+          </button>
+        </div>
+        {sidebarContent}
+      </aside>
+
+      {/* Desktop sidebar */}
+      <aside
+        className={`hidden border-r border-slate-200 bg-white py-6 transition-all duration-200 md:block ${
+          isCollapsed ? 'w-20 px-4' : 'w-64 px-6'
+        }`}
+      >
+        {sidebarContent}
+      </aside>
+    </>
   );
 }

@@ -16,7 +16,7 @@ export default function DeleteConfirmToast({
   if (!deleteTarget) return null;
 
   return (
-    <div className="fixed right-6 top-6 z-50 w-full max-w-sm rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700 shadow-lg">
+    <div className="fixed inset-x-4 top-4 z-50 sm:inset-x-auto sm:right-6 sm:top-6 sm:w-full sm:max-w-sm rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700 shadow-lg">
       <div className="text-xs font-semibold uppercase text-rose-600">Delete API Key</div>
       <div className="mt-2 font-semibold text-rose-800">
         Delete &quot;{deleteTarget.name}&quot;?

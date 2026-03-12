@@ -41,7 +41,7 @@ export default function ApiKeyModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4">
-      <div className="w-full max-w-lg rounded-3xl bg-white p-6 shadow-2xl">
+      <div className="w-full max-w-lg rounded-3xl bg-white p-4 shadow-2xl sm:p-6">
         <div className="text-center">
           <h2 className="text-2xl font-semibold text-slate-900">
             {editingKey ? 'Edit API Key' : 'Create a new API key'}
@@ -55,7 +55,7 @@ export default function ApiKeyModal({
         <form onSubmit={onSubmit} className="mt-6 space-y-5">
           <div>
             <label className="text-sm font-semibold text-slate-900">Key Name</label>
-            <span className="ml-2 text-sm text-slate-500">
+            <span className="ml-1 text-sm text-slate-500 sm:ml-2">
               — A unique name to identify this key
             </span>
             <input

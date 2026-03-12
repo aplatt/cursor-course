@@ -7,6 +7,7 @@ import { ArrowLeft, Loader2, Lightbulb, BookOpen, AlertCircle, RotateCcw } from 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Navbar } from '@/components/navbar';
 import { analyzeRepo, type AnalyzeResult } from './actions';
 
 type Status = 'loading' | 'success' | 'error';
@@ -185,8 +186,9 @@ function AnalyzeLoading() {
 
 export default function AnalyzePage() {
   return (
-    <div className="min-h-screen bg-background px-6 py-16">
-      <div className="mx-auto max-w-3xl">
+    <div className="min-h-screen bg-background">
+      <Navbar />
+      <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 sm:py-16">
         <Suspense fallback={<AnalyzeLoading />}>
           <AnalyzeContent />
         </Suspense>

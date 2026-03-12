@@ -34,8 +34,55 @@ export default function ApiKeysTable({
         </button>
       </div>
 
-      <div className="mt-4 overflow-x-auto rounded-xl border border-slate-100">
-        <table className="w-full min-w-[600px] text-sm">
+      {/* Mobile card layout */}
+      <div className="mt-4 space-y-3 md:hidden">
+        {isLoading ? (
+          <p className="py-4 text-sm text-slate-500">Loading API keys...</p>
+        ) : apiKeys.length === 0 ? (
+          <p className="py-4 text-sm text-slate-500">
+            No API keys yet. Create your first key to get started.
+          </p>
+        ) : (
+          apiKeys.map((apiKey) => (
+            <div key={apiKey.id} className="rounded-xl border border-slate-100 p-4">
+              <div className="flex items-center justify-between">
+                <span className="font-medium text-slate-900">{apiKey.name}</span>
+                <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-700">
+                  dev
+                </span>
+              </div>
+              <div className="mt-2 overflow-x-auto rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 font-mono text-xs text-slate-700">
+                {apiKey.key}
+              </div>
+              <div className="mt-2 text-xs text-slate-500">Usage: 0</div>
+              <div className="mt-3 flex items-center gap-2">
+                <button
+                  onClick={() => onCopy(apiKey)}
+                  className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-600 hover:bg-slate-50"
+                >
+                  {copiedId === apiKey.id ? 'Copied' : 'Copy'}
+                </button>
+                <button
+                  onClick={() => onEdit(apiKey)}
+                  className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-600 hover:bg-slate-50"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => onDeleteRequest(apiKey)}
+                  className="rounded-lg border border-rose-200 px-3 py-1.5 text-xs text-rose-600 hover:bg-rose-50"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* Desktop table layout */}
+      <div className="mt-4 hidden overflow-x-auto rounded-xl border border-slate-100 md:block">
+        <table className="w-full text-sm">
           <thead className="bg-slate-50 text-xs uppercase text-slate-500">
             <tr>
               <th className="px-4 py-3 text-left">Name</th>

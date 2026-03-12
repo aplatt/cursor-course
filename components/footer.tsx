@@ -25,7 +25,7 @@ export function Footer() {
   return (
     <footer className="border-t border-border/50 py-12">
       <div className="mx-auto max-w-7xl px-6">
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+        <div className="grid grid-cols-2 gap-4 sm:gap-8 md:grid-cols-4">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <Link href="/" className="flex items-center gap-2">

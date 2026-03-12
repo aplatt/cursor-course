@@ -54,7 +54,7 @@ export function DemoPreview() {
           </div>
 
           {/* Stats Grid */}
-          <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
+          <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
             {[
               { icon: Star, label: "Stars", value: "128.4K", trend: "+2.1K this month" },
               { icon: GitFork, label: "Forks", value: "27.3K", trend: "+340 this month" },
